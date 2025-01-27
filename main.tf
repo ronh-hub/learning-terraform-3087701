@@ -11,21 +11,21 @@ data "aws_ami" "app_ami" {
     values = ["hvm"]
   }
 
-  owners = [var.ami.filter.owner]
+  owners = [var.ami_filter.owner]
 }
 
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = var.enviroment.name
-  cidr = "${var.enviroment.network_prefix}.0.0/16"
+  name = var.environment.name
+  cidr = "${var.environment.network_prefix}.0.0/16"
 
   azs             = ["us-west-2a","us-west-2b","us-west-2c"]
-  public_subnets  = ["$var.enviroment.network_prefix.101.0/24", "$var.enviroment.network_prefix.102.0/24", "$var.enviroment.network_prefix.103.0/24"]
+  public_subnets  = ["$var.environment.network_prefix.101.0/24", "$var.environment.network_prefix.102.0/24", "$var.environment.network_prefix.103.0/24"]
 
   tags = {
-    Terraform = "true"
-    Environment = var.enviroment.name
+    terraform = "true"
+    environment = var.environment.name
   }
 }
 
@@ -34,7 +34,7 @@ module "blog_autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.5.2"
 
-  name = "${var.enviroment.name}-blog"
+  name = "${var.environment.name}-blog"
 
   min_size            = var.asg_min
   max_size            = var.asg_max
