@@ -75,6 +75,7 @@ module "alb" {
     }
 
   ]
+}
 
 listeners = {
 example = {
